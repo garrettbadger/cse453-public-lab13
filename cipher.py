@@ -19,11 +19,11 @@ class Cipher:
 
     def get_author(self):
         # TODO: Return your name
-        return "author"
+        return "Garrett Badger"
 
     def get_cipher_name(self):
         # TODO: Return the cipher name
-        return "cipher name"
+        return "Vigenere"
 
     ##########################################################################
     # GET CIPHER CITATION
@@ -31,7 +31,9 @@ class Cipher:
     ##########################################################################
     def get_cipher_citation(self):
         # TODO: This function should return your citation(s)
-        return "citation"
+        return "Author: Gustavus J. Simmons " \
+            "Title: Vigenere Ciper " \
+        "https://www.britannica.com/topic/Vigenere-cipher"
 
     ##########################################################################
     # GET PSEUDOCODE
@@ -41,11 +43,42 @@ class Cipher:
         # TODO: This function should return your psuedocode, neatly formatted
 
         # The encrypt pseudocode
-        pc = "insert the encryption pseudocode\n"
+        pc = "encrypt(plaintext, password):\n" \
+            "    conv_text <- [ord(c) for c in plaintext] \n" \
+            "    conv_pass <- [ord(c) for c in plaintext] \n" \
+            "    x=1 \n" \
+            "    FOR i in range(0, len(plaintext)): \n" \
+            "        IF i > len(conv_pass)-1: \n" \
+            "            conv_text[i] = conv_text[i] + conv_pass[i-x] \n" \
+            "            x+=1 \n" \
+            "        ELSE \n" \
+            "            conv_text[i] = conv_text[i] + conv_pass[i] \n" \
+            "        WHILE conv_text[i] > 126: \n" \
+            "            conv_text[i] -=95\n" \
+            "        WHILE conv_text[i] < 32: \n" \
+            "            conv_text[i] +=95\n" \
+            "    FOR i in range(0, len(conv_text)): \n" \
+            "        cipher_text += chr(conv_text[i]) \n" \
+            "    RETUN cipher_text \n\n" 
 
         # The decrypt pseudocode
-        pc += "insert the decryption pseudocode\n"
-
+        pc += "decrypt(plaintext, password):\n" \
+            "    conv_text <- [ord(c) for c in plaintext] \n" \
+            "    conv_pass <- [ord(c) for c in plaintext] \n" \
+            "    x=1 \n" \
+            "    FOR i in range(0, len(plaintext)): \n" \
+            "        IF i > len(conv_pass)-1: \n" \
+            "            conv_text[i] = conv_text[i] - conv_pass[i-x] \n" \
+            "            x+=1 \n" \
+            "        ELSE \n" \
+            "            conv_text[i] = conv_text[i] - conv_pass[i] \n" \
+            "        WHILE conv_text[i] > 126: \n" \
+            "            conv_text[i] -=95\n" \
+            "        WHILE conv_text[i] < 32: \n" \
+            "            conv_text[i] +=95\n" \
+            "    FOR i in range(0, len(conv_text)): \n" \
+            "        cipher_text += chr(conv_text[i]) \n" \
+            "    RETUN cipher_text \n\n" 
         return pc
 
     ##########################################################################
@@ -53,15 +86,48 @@ class Cipher:
     # TODO: ADD description
     ##########################################################################
     def encrypt(self, plaintext, password):
-        ciphertext = plaintext
         # TODO - Add your code here
-        return ciphertext
+        cipher_text = ""
+        conv_text = [ord(c) for c in plaintext]
+        conv_pass = [ord(c) for c in password]
+        x=1
+        for i in range(0, len(plaintext)):
+            if i > len(conv_pass)-1:
+                conv_text[i] = conv_text[i] + conv_pass[i-x]
+                x+=1
+            else:
+                conv_text[i] = conv_text[i] + conv_pass[i]
+            while conv_text[i] > 126:
+                conv_text[i] -= 95
+            while conv_text[i] < 32:
+                conv_text[i] += 95
+        for i in range(0, len(conv_text)):
+            cipher_text +=chr(conv_text[i])
+        return cipher_text
+        
 
     ##########################################################################
     # DECRYPT
     # TODO: ADD description
     ##########################################################################
     def decrypt(self, ciphertext, password):
-        plaintext = ciphertext
+        
         # TODO - Add your code here
-        return plaintext
+        cipher_text = ""
+        conv_text = [ord(c) for c in ciphertext]
+        conv_pass = [ord(c) for c in password]
+        x=1
+        for i in range(0, len(ciphertext)):
+            if i > len(conv_pass)-1:
+                conv_text[i] = conv_text[i] - conv_pass[i-x]
+                x+=1
+            else:
+                conv_text[i] = conv_text[i] - conv_pass[i]
+            while conv_text[i] > 126:
+                conv_text[i] -= 95
+            while conv_text[i] < 32:
+                conv_text[i] += 95
+        for i in range(0, len(conv_text)):
+            cipher_text +=chr(conv_text[i])
+        return cipher_text
+        
